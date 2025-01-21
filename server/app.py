@@ -32,6 +32,17 @@ def pet_by_id(id):
 
     return response
 
+@app.route('/species/<string:species>')
+def pet_by_species(species):
+    pets = Pet.query.filter_by(species=species).all()
+
+    size = len(pets)  # all() returns a list so we can get length
+    response_body = f'<h2>There are {size} {species}s</h2>'
+    for pet in pets:
+        response_body += f'<p>{pet.name}</p>'
+    response = make_response(response_body, 200)
+    return response
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
